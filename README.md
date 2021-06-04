@@ -1,4 +1,3 @@
 # create league of legend information app.
 
-[ ] = 로그인
-[ ] = 
+- [ ]  로그인
