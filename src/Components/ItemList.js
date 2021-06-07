@@ -51,15 +51,18 @@ const Start = styled.div`
 `;
 
 
-const ItemImage = styled.div`
+const ItemImage = styled.button`
     background: url(${props => props.bgurl});
     background-size: cover;
     background-position: center center;
     width: 40px;
     height: 40px;
-    
+    border: none;
     &:hover {
         cursor: pointer;
+    }
+    &:focus {
+        border: 2px solid #AED6F1;
     }
 `;
 
@@ -70,14 +73,12 @@ const ItemGold = styled.span`
     margin-top: 5px;
 `;
 
-
-const imageURL = "http://ddragon.leagueoflegends.com/cdn/11.11.1/img/item/";
-
-const ItemList = ({ items, keys, loading }) => {
+const ItemList = ({ items, id, loading, imageURL, handleClick}) => {
     const checkGroup = groupName => {
         let result = items.filter(item => item.group === groupName);
         return result;
     }
+
     return (
         <>
             {loading ? <Loader />
@@ -87,11 +88,11 @@ const ItemList = ({ items, keys, loading }) => {
                         {items.map(item => {
                             return item.group === "start" &&
                                 <Start>
-                                    <ItemImage bgurl={imageURL + item.image.full} />
+                                    <ItemImage id={item.image.full} bgurl={imageURL + item.image.full} onClick={handleClick}/>
                                     <ItemGold>{item.gold.total}</ItemGold>
                                     <ItemName>{item.name}</ItemName>
                                 </Start>
-                        })}
+                        })} 
                     </Section>
 
                     {checkGroup("basic").length > 0 && <Title>기본</Title>}
@@ -99,7 +100,7 @@ const ItemList = ({ items, keys, loading }) => {
                         {items.map(item => {
                             return item.group === "basic" &&
                                 <Start>
-                                    <ItemImage bgurl={imageURL + item.image.full} />
+                                    <ItemImage id={item.image.full} bgurl={imageURL + item.image.full}  onClick={handleClick}/>
                                     <ItemGold>{item.gold.total}</ItemGold>
                                     <ItemName>{item.name}</ItemName>
                                 </Start>
@@ -111,7 +112,7 @@ const ItemList = ({ items, keys, loading }) => {
                         {items.map(item => {
                             return item.group === "epic" &&
                                 <Start>
-                                    <ItemImage bgurl={imageURL + item.image.full} />
+                                    <ItemImage id={item.image.full} bgurl={imageURL + item.image.full}  onClick={handleClick}/>
                                     <ItemGold>{item.gold.total}</ItemGold>
                                     <ItemName>{item.name}</ItemName>
                                 </Start>
@@ -123,7 +124,7 @@ const ItemList = ({ items, keys, loading }) => {
                         {items.map(item => {
                             return item.group === "legend" &&
                                 <Start>
-                                    <ItemImage bgurl={imageURL + item.image.full} />
+                                    <ItemImage id={item.image.full} bgurl={imageURL + item.image.full}  onClick={handleClick}/>
                                     <ItemGold>{item.gold.total}</ItemGold>
                                     <ItemName>{item.name}</ItemName>
                                 </Start>
@@ -134,8 +135,8 @@ const ItemList = ({ items, keys, loading }) => {
                     <Section>
                         {items.map(item => {
                             return item.group === "myth" &&
-                            <Start>
-                                    <ItemImage bgurl={imageURL + item.image.full} />
+                                <Start>
+                                    <ItemImage id={item.image.full} bgurl={imageURL + item.image.full}  onClick={handleClick}/>
                                     <ItemGold>{item.gold.total}</ItemGold>
                                     <ItemName>{item.name}</ItemName>
                                 </Start>
@@ -150,8 +151,10 @@ const ItemList = ({ items, keys, loading }) => {
 
 ItemList.propTypes = {
     items: PropTypes.array,
-    keys: PropTypes.array,
-    loading: PropTypes.bool
+    id: PropTypes.array,
+    loading: PropTypes.bool,
+    imageURL: PropTypes.string,
+    handleClick: PropTypes.func
 }
 
 

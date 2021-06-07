@@ -7,6 +7,7 @@ const Loading = styled.div`
     font-size: 30px;
     background-color: #212F3D;
     color: #EAECEE;
+    padding-top: 50px;
 `;
 
 const Loader = () => {

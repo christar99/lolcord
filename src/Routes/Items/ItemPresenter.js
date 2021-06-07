@@ -2,6 +2,7 @@ import React from 'react';
 import Proptypes from 'prop-types';
 import styled from 'styled-components';
 import ItemList from 'Components/ItemList';
+import ItemDetail from 'Components/ItemDetail';
 
 const Container = styled.div`
     width: 100%;
@@ -76,19 +77,15 @@ const Filter = styled.div`
     background-color: #2C3E50;
 `;
 
-const ItemDetail = styled.div`
-    width: 30%;
+const ItemDetailContainer = styled.div`
+    width: 35%;
     height: 90%;
     display: flex;
-    background-color: rgb(75,93,113);
+    background-color: #212F3D;
     z-index: 2;
 `;
 
-const ItemPresenter = ({items, keys, loading, handleChange, searchValue}) => {
-    let searchItem = [];
-    if(searchValue !== "" && items !== undefined) {
-        searchItem = items.filter(item => item.name.includes(searchValue));
-    }
+const ItemPresenter = ({items, id, loading, imageURL, handleChange, searchValue, handleClick, clickedItem}) => {
     return (
         <Container>
             <Background bgUrl={require(`assets/Invasion_of_starGuard.jpg`).default}/>
@@ -96,33 +93,47 @@ const ItemPresenter = ({items, keys, loading, handleChange, searchValue}) => {
                 <FilterClear></FilterClear>
                 <SearchBox>
                     <SearchImage bgImage={require(`assets/search.png`).default}/>
-                    <Input type="text" placeholder="아이템 검색" onChange={handleChange}/>
+                    <Input placeholder="아이템 검색" onChange={handleChange}/>
                 </SearchBox>
                 <Filter></Filter>
                 {searchValue === undefined || searchValue === ""
                     ? <ItemList 
                         items={items}
-                        keys={keys}
+                        id={id}
                         loading={loading}
+                        imageURL={imageURL}
+                        handleClick={handleClick}
                     />
                     : <ItemList 
-                        items={searchItem}
-                        keys={keys}
+                        items={searchValue}
+                        id={id}
                         loading={loading}
+                        imageURL={imageURL}
+                        handleClick={handleClick}
                     />
                 }
             </ItemBox>
-            <ItemDetail></ItemDetail>
+            <ItemDetailContainer >
+                <ItemDetail
+                    items={items}
+                    clickedItem={clickedItem}
+                    imageURL={imageURL}
+                    handleClick={handleClick}
+                />
+            </ItemDetailContainer>
         </Container>
     );
 }
 
 ItemPresenter.prototypes = {
     items: Proptypes.array,
-    keys: Proptypes.array,
+    id: Proptypes.array,
     loading: Proptypes.bool.isRequired,
+    imageURL: Proptypes.string,
     handleChange: Proptypes.func,
-    searchValue: Proptypes.string
+    searchValue: Proptypes.string,
+    handleClick: Proptypes.func,
+    clickedItem: Proptypes.number
 }
 
 export default ItemPresenter;
