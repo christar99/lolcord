@@ -17,6 +17,7 @@ const ItemContainer = () => {
   const fetchURL = async () => {
     const result = await itemAPI;
     let itemValue = Object.values(result.data.data);
+    
 
     /// API다듬기
     // 하.. 아이템별 분류 직접해야함 롤 api tlqkf
