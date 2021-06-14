@@ -9,13 +9,11 @@ const Filter = styled.div`
     background-color: #2C3E50;
 `;
 
-const FilterClear = styled.div`
+const SpaceArea = styled.div`
     width: 45px; 
     height: 50px;
     border-right: 1px solid #5D6D7E;
     border-bottom: 1px solid #5D6D7E;
-    display: grid;
-    place-items: center;
 `;
 
 const FilterContent = styled.ul`
@@ -46,7 +44,7 @@ const FilterImage = styled.input`
         background: url(${props => props.bgURL}) no-repeat;
         background-size: 20px 20px;
         background-position: center center;
-        background-color: #2C3E50;
+        background-color: '#2C3E50';
     }
 
     &:hover {
@@ -148,11 +146,10 @@ const ItemFilter = ({ items, id, handleCheck }) => {
             isClicked: false
         }
     ];
+
     return (
         <Filter>
-            <FilterClear>
-                <FilterImage bgURL={`http://poro.gg/images/icon/clearfilter.svg`} />
-            </FilterClear>
+            <SpaceArea />
             <FilterContent>
                 {filterInfo.map(token => {
                     return (

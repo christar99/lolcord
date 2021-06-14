@@ -110,14 +110,8 @@ const ItemContainer = () => {
   const handleChange = event => {
     let searchItem = [];
     if (event && items) {
-      if(!checkedFilter) {
-        searchItem = items.filter(item => item.name.includes(event.target.value));
-        setSearchValue(searchItem);
-      } 
-      else {
-        searchItem = checkedFilter.filter(item => item.name.includes(event.target.value));
-        setSearchValue(searchItem);
-      }
+      searchItem = items.filter(item => item.name.includes(event.target.value));
+      setSearchValue(searchItem);
     }
   }
 
@@ -169,6 +163,7 @@ const ItemContainer = () => {
       clickedItem={clickedItem}
       handleCheck={handleCheck}
       checkedFilter={checkedFilter}
+      checkedId={[...checkedId]}
     />
   );
 }

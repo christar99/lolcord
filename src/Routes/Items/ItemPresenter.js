@@ -84,11 +84,13 @@ const ItemDetailContainer = styled.div`
     background-color: #212F3D;
     z-index: 2;
 `;
-const ItemPresenter = ({items, id, loading, imageURL, handleChange, searchValue, handleClick, clickedItem, handleCheck, checkedFilter }) => {
+const ItemPresenter = ({items, id, loading, imageURL, handleChange, searchValue, 
+    handleClick, clickedItem, handleCheck, checkedFilter, checkedId }) => {
     let interSection = []
     if(searchValue !== undefined && checkedFilter !== undefined){
         interSection = searchValue.filter(value => checkedFilter.includes(value));
     }
+
     return (
         <Container>
             <Background bgUrl={require(`assets/Invasion_of_starGuard.jpg`).default}/>
@@ -104,7 +106,7 @@ const ItemPresenter = ({items, id, loading, imageURL, handleChange, searchValue,
                         <Input placeholder="아이템 검색" onChange={handleChange}/>
                     </SearchBox>
                     {searchValue === undefined || searchValue === ""
-                        ? (!checkedFilter || !checkedFilter.length
+                        ? (checkedFilter === undefined || (checkedFilter.length === 0 && checkedId.length === 0)
                             ? <ItemList // 검색도 없고 필터도 없고
                             items={items}
                             id={id}
@@ -120,7 +122,7 @@ const ItemPresenter = ({items, id, loading, imageURL, handleChange, searchValue,
                             handleClick={handleClick}
                             /> 
                         )
-                        : (!checkedFilter || !checkedFilter.length
+                        : (!checkedFilter || (!checkedFilter.length && !checkedId.length)
                             ? <ItemList // 검색은 있고 필터는 없고
                             items={searchValue}
                             id={id}
@@ -162,7 +164,8 @@ ItemPresenter.propTypes = {
     handleClick: Proptypes.func,
     clickedItem: Proptypes.object,
     handleCheck: Proptypes.func,
-    checkedFilter: Proptypes.array
+    checkedFilter: Proptypes.array,
+    checkedId: Proptypes.array
 }
 
 export default ItemPresenter;
