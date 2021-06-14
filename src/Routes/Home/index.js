@@ -1,21 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import styled from 'styled-components';
-import { versionAPI } from 'API';
 
-const Header = styled.header`
-    height: 50px;
-    line-height: 50px;
-    background-color: rgb(235,102,45);
-    position: relative;
-    z-index: 20;
-    opacity: 0.8;
-`;
-
-const Version = styled.div`
-    margin-left: 20px;
-    font-size: 14px;
-`;
 
 const Container = styled.div`
     width: 100%;
@@ -42,7 +27,7 @@ const Background = styled.div`
 
 const Title = styled.h1`
     font-size: 90px;
-    margin-top: 200px;
+    margin-top: 300px;
     text-shadow: 3px 3px rgb(132,132,132);
 `;
 
@@ -78,43 +63,15 @@ const Button = styled.button`
     }
 `;
 
-const Content = styled.div`
-    margin-top: 20px;
-    font-size: 20px;
-`;
-
-const Items = styled.span``;
-
-const Champions = styled.span``;
-
-const Lanking = styled.span``;
-
 const Home = () => {
-    const [version, setVersion] = useState();
-    const fetchData = async () => {
-        const result = await versionAPI;
-        setVersion(result.data[0])
-    }
-    useEffect(() => {
-        fetchData();
-    }, []);
-
     return (
         <>
-            <Header>
-                <Version>Version {version}</Version>
-            </Header>
             <Background bgUrl={require(`assets/summoners_canyon.jpg`).default}/>
-            <Container>
+            {/* <Container>
                 <Title>LOLCORD</Title>
                 <Input placeholder="소환사이름을 검색하세요!"></Input>
                 <Button>GO!</Button>
-                <Content>
-                    <Link to="/items"><Items>아이템도감 </Items></Link>|
-                    <Link to="/champions"><Champions> 챔피언도감 </Champions></Link>|
-                    <Link to="/lanking"><Lanking> 랭킹</Lanking></Link>
-                </Content>
-            </Container>
+            </Container> */}
         </>
     );
 }

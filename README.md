@@ -1,3 +1,3 @@
 # create league of legend information app.
 
-- [ ]  로그인
+- [x]  아이템부분 완성

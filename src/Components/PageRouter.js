@@ -4,10 +4,12 @@ import Home from 'Routes/Home';
 import Items from 'Routes/Items';
 import Champions from 'Routes/Champions';
 import Lanking from 'Routes/Lanking';
+import Header from 'Components/Header';
 
 
-export default () => (
+const PageRouter = () => (
     <Router>
+        <Header />
         <Switch>
             <Route path="/" exact component={Home} />
             <Route Path="/items" exact component={Items} />
@@ -17,3 +19,5 @@ export default () => (
         </Switch>
     </Router>
 )
+
+export default PageRouter;

@@ -1,8 +1,9 @@
 import React from 'react';
 import Proptypes from 'prop-types';
 import styled from 'styled-components';
-import ItemList from 'Components/ItemList';
-import ItemDetail from 'Components/ItemDetail';
+import ItemList from 'Components/Items/ItemList';
+import ItemDetail from 'Components/Items/ItemDetail';
+import ItemFilter from 'Components/Items/ItemFilter';
 
 const Container = styled.div`
     width: 100%;
@@ -11,6 +12,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: space-evenly;
     position: relative;
+    overflow: hidden;
 `;
 
 const Background = styled.div`
@@ -27,21 +29,22 @@ const Background = styled.div`
     z-index: 0; 
 `;
 
-const ItemBox = styled.div`
+const ListContainer = styled.div`
     width: 40%;
-    height: 90%;
-    display: grid;
-    grid-template-rows: 50px 1fr;
-    grid-template-columns: 50px 1fr;
+    height: 83%;
     background-color: rgb(75,93,113);
+    display: flex;
     z-index: 2;
 `;
 
-const FilterClear = styled.div`
-    background-color: #2C3E50;
-    border-bottom: 1px solid #5D6D7E;
-    border-right: 1px solid #5D6D7E;
+
+const ItemBox = styled.div`
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 50px 1fr;
 `;
+
 
 const SearchBox = styled.div`
     background-color: #2C3E50;
@@ -73,46 +76,70 @@ const SearchImage = styled.div`
     margin-left: 8px;
 `;
 
-const Filter = styled.div`
-    background-color: #2C3E50;
-`;
 
 const ItemDetailContainer = styled.div`
-    width: 35%;
-    height: 90%;
+    width: 30%;
+    height: 83%;
     display: flex;
     background-color: #212F3D;
     z-index: 2;
 `;
-
-const ItemPresenter = ({items, id, loading, imageURL, handleChange, searchValue, handleClick, clickedItem}) => {
+const ItemPresenter = ({items, id, loading, imageURL, handleChange, searchValue, handleClick, clickedItem, handleCheck, checkedFilter }) => {
+    let interSection = []
+    if(searchValue !== undefined && checkedFilter !== undefined){
+        interSection = searchValue.filter(value => checkedFilter.includes(value));
+    }
     return (
         <Container>
             <Background bgUrl={require(`assets/Invasion_of_starGuard.jpg`).default}/>
-            <ItemBox>
-                <FilterClear></FilterClear>
-                <SearchBox>
-                    <SearchImage bgImage={require(`assets/search.png`).default}/>
-                    <Input placeholder="아이템 검색" onChange={handleChange}/>
-                </SearchBox>
-                <Filter></Filter>
-                {searchValue === undefined || searchValue === ""
-                    ? <ItemList 
-                        items={items}
-                        id={id}
-                        loading={loading}
-                        imageURL={imageURL}
-                        handleClick={handleClick}
-                    />
-                    : <ItemList 
-                        items={searchValue}
-                        id={id}
-                        loading={loading}
-                        imageURL={imageURL}
-                        handleClick={handleClick}
-                    />
-                }
-            </ItemBox>
+            <ListContainer>
+                <ItemFilter 
+                    items={items}
+                    id={id}
+                    handleCheck={handleCheck}
+                />
+                <ItemBox>
+                    <SearchBox>
+                        <SearchImage bgImage={require(`assets/search.png`).default}/>
+                        <Input placeholder="아이템 검색" onChange={handleChange}/>
+                    </SearchBox>
+                    {searchValue === undefined || searchValue === ""
+                        ? (!checkedFilter || !checkedFilter.length
+                            ? <ItemList // 검색도 없고 필터도 없고
+                            items={items}
+                            id={id}
+                            loading={loading}
+                            imageURL={imageURL}
+                            handleClick={handleClick}
+                            /> 
+                            : <ItemList // 검색은 없고 필터는 있고
+                            items={checkedFilter}
+                            id={id}
+                            loading={loading}
+                            imageURL={imageURL}
+                            handleClick={handleClick}
+                            /> 
+                        )
+                        : (!checkedFilter || !checkedFilter.length
+                            ? <ItemList // 검색은 있고 필터는 없고
+                            items={searchValue}
+                            id={id}
+                            loading={loading}
+                            imageURL={imageURL}
+                            handleClick={handleClick}
+                            />
+                            : <ItemList // 검색도 있고 필터도 있고
+                            items={interSection}
+                            id={id}
+                            loading={loading}
+                            imageURL={imageURL}
+                            handleClick={handleClick}
+                            />  
+                        )
+                    }
+                </ItemBox>
+            </ListContainer>
+
             <ItemDetailContainer >
                 <ItemDetail
                     items={items}
@@ -125,15 +152,17 @@ const ItemPresenter = ({items, id, loading, imageURL, handleChange, searchValue,
     );
 }
 
-ItemPresenter.prototypes = {
+ItemPresenter.propTypes = {
     items: Proptypes.array,
     id: Proptypes.array,
     loading: Proptypes.bool.isRequired,
     imageURL: Proptypes.string,
     handleChange: Proptypes.func,
-    searchValue: Proptypes.string,
+    searchValue: Proptypes.array,
     handleClick: Proptypes.func,
-    clickedItem: Proptypes.number
+    clickedItem: Proptypes.object,
+    handleCheck: Proptypes.func,
+    checkedFilter: Proptypes.array
 }
 
 export default ItemPresenter;
