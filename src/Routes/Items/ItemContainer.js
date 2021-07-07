@@ -17,7 +17,7 @@ const ItemContainer = () => {
   const fetchURL = async () => {
     const result = await itemAPI;
     let itemValue = Object.values(result.data.data);
-    
+
 
     /// API다듬기
     // 하.. 아이템별 분류 직접해야함 롤 api tlqkf
@@ -29,7 +29,7 @@ const ItemContainer = () => {
         118, 125, 127, 141, 142, 156, 162, 163, 165, 168, 169, 171, 183, 186, 192],
       legend: [46, 47, 48, 51, 54, 55, 56, 58, 60, 63, 65, 67, 69, 74, 75, 76, 77, 82, 83, 85, 86, 87, 88, 89, 90, 92, 94, 95, 100,
         101, 104, 107, 108, 110, 111, 114, 116, 117, 119, 121, 122, 126, 128, 134, 135, 139, 140, 143, 158, 160, 161, 167, 170, 172,
-        173, 174, 175, 190, 191, 196, 197],
+        173, 174, 175, 190, 191, 196, 197, 221],
       myth: [35, 72, 80, 113, 124, 157, 164, 166, 176, 177, 178, 179, 180, 181, 182, 184, 185, 187, 188, 189, 193, 194, 195]
     } 
 
@@ -83,7 +83,7 @@ const ItemContainer = () => {
     setItems(itemValue);
     setKey(Object.keys(result.data.data));
     setLoading(false);
-    setImageURL("http://ddragon.leagueoflegends.com/cdn/11.11.1/img/item/");
+    setImageURL("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/");
   }
 
   useEffect(() => fetchURL(), []);

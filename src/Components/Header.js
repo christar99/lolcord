@@ -77,7 +77,7 @@ const Header = () => {
             <Content>
                 <Link to="/items"><Items>아이템도감</Items></Link>
                 <Devider> | </Devider> 
-                {/* <Link to="/champions"><Champions>챔피언도감</Champions></Link>
+                {/* <Link to="/champions"><Ch   ampions>챔피언도감</Ch></Link>
                 <Devider> | </Devider> 
                 <Link to="/lanking"><Lanking>랭킹</Lanking></Link> */}
             </Content>
