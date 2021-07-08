@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Proptypes from 'prop-types';
 import styled from 'styled-components';
 import ItemList from 'Components/Items/ItemList';
@@ -15,11 +15,151 @@ const Container = styled.div`
     overflow: hidden;
 `;
 
+// 설명을위한 모달창
+const Modal = styled.div`
+    display: ${props => props.state ? "flex" : "none"};
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 100;
+    background-color: #808080;
+    opacity: 0.85;
+    align-items: center;
+    justify-content: space-evenly;
+    overflow: hidden;
+`;
+
+const ModalOff = styled.span`
+    display: inline-block;
+    position: absolute;
+    left: 35vw;
+    top: 3vh;
+    font-size: 2rem;
+`;
+
+const ItemListModalBox = styled.div`
+    width: 40vw;
+    height: 83vh;
+    z-index: 200;
+`;
+
+const ItemDetailModalBox = styled.div`
+    width: 30%;
+    height: 83%;
+    z-index: 200;
+`;
+
+
+
+const ExplainModal = styled.div`
+    border: 3px solid #151515;
+`;
+
+const ModalSearch = styled(ExplainModal)`
+    width: calc(100% - 50px);
+    height: 50px;
+    margin-left: 50px;
+    border-color: rgb(80 ,20 ,0);
+`;
+
+const ModalFilter = styled(ExplainModal)`
+    width: 50px;
+    height: calc(100% - 50px);
+    border-color: rgb(80 ,20 ,0);
+`;
+
+
+const ModalList = styled(ExplainModal)`
+    width: calc(100% - 50px);
+    height: calc(100% - 50px);
+    margin-left: 50px;
+    top: calc(-83vh + 50px);
+    position: relative;
+    border-color: rgb(0, 40, 109);
+`;
+
+const ModalDetail = styled(ExplainModal)`
+    width: 100%;
+    height: 100%;
+    border-color: rgb(0, 40, 109);
+    font-size: 1.1rem;
+    color: rgb(0, 40, 109);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+`;
+//////////////////////
+
+
+
+// 모달창 박스의 내용물들
+const ExplainBox = styled.div`
+    position: relative;
+    color: #151515;
+    font-size: 1.5rem;
+`;
+
+const ExplainSearch = styled(ExplainBox)`
+    width: 30vw;
+    left: 30px;
+    top: 60px;
+    color: rgb(80, 20, 0);
+`;
+
+const ExplainFilter = styled(ExplainBox)`
+    width: 30vw;
+    left: 70px;
+    top: 30vh;
+    color: rgb(80, 20, 0);
+`;
+
+const ExplainList = styled(ExplainBox)`
+    width: 30vw;
+    left: 30px;
+    top: 50vh;
+    color: rgb(0, 40, 109);
+`;
+
+const Arrow = styled.p`
+    font-weight: 700;
+    font-size: 2rem;
+    display: inline-block;
+`;
+
+const Explain = styled.span``;
+
+const ExplainBuild = styled.div`
+    width: 100%;
+    height: 95px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid rgb(0, 40, 109);
+`;
+
+const ExplainCombination = styled.div`
+    width: 100%;
+    height: 270px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid rgb(0, 40, 109);
+`;
+
+const ExplainDetail = styled.div`
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+//////////////////////
+
 const Background = styled.div`
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     position: absolute;
     background: url(${props => props.bgUrl}) no-repeat;
     background-position: center center;
@@ -30,8 +170,8 @@ const Background = styled.div`
 `;
 
 const ListContainer = styled.div`
-    width: 40%;
-    height: 83%;
+    width: 40vw;
+    height: 83vh;
     background-color: rgb(75,93,113);
     display: flex;
     z-index: 2;
@@ -84,15 +224,53 @@ const ItemDetailContainer = styled.div`
     background-color: #212F3D;
     z-index: 2;
 `;
+
 const ItemPresenter = ({items, id, loading, imageURL, handleChange, searchValue, 
     handleClick, clickedItem, handleCheck, checkedFilter, checkedId }) => {
-    let interSection = []
+    let interSection = [];
+    const [modalState, setModalState] = useState(true);
     if(searchValue !== undefined && checkedFilter !== undefined){
         interSection = searchValue.filter(value => checkedFilter.includes(value));
     }
 
+    const modalOff = () => {
+        setModalState(false);
+    }
+
     return (
         <Container>
+            <Modal onClick={modalOff} state={modalState}>
+                <ItemListModalBox>
+                    <ModalOff>※설명창을 종료하려면 아무곳을 클릭해주세요.</ModalOff>
+                    <ModalSearch>
+                        <ExplainSearch>
+                            <Arrow>↑</Arrow>
+                            <Explain>이 부분은 검색창입니다. 검색해서 아이템을 쉽게 찾으세요.</Explain>
+                        </ExplainSearch>
+                    </ModalSearch>
+
+                    <ModalFilter>
+                        <ExplainFilter>
+                            <Arrow>←</Arrow>
+                            <Explain> 이 부분은 필터입니다. 원하는 아이템을 찾고자 할 때, 필터를 클릭해 편하게 찾으세요.</Explain>
+                        </ExplainFilter>
+                    </ModalFilter>
+
+                    <ModalList>
+                        <ExplainList>
+                            <Explain> 아이템리스트입니다. 박스안의 아이템을 클릭하면 옆박스의 세부정보가 출력됩니다.</Explain>
+                        </ExplainList>
+                     </ModalList>
+                </ItemListModalBox>
+
+                <ItemDetailModalBox>
+                    <ModalDetail>
+                        <ExplainBuild> 이 아이템으로 조합할 수 있는 다른아이템들입니다.</ExplainBuild>
+                        <ExplainCombination>아이템 조합식입니다. </ExplainCombination>
+                        <ExplainDetail>아이템 세부정보입니다. 아이템의 능력치, 액티브와 패시브스킬등의 정보가 출력됩니다.</ExplainDetail>
+                    </ModalDetail>
+                </ItemDetailModalBox>
+            </Modal>
             <Background bgUrl={require(`assets/Invasion_of_starGuard.jpg`).default}/>
             <ListContainer>
                 <ItemFilter 

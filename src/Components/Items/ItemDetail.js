@@ -246,15 +246,21 @@ const Rules = styled.span`
 const ItemDetail = ({ items, clickedItem, imageURL, handleClick }) => {
     let intoItem, fromItem, baseItemInfo, baseItem = [];
 
+    // 처음에 띄울 아이템 설정 => 선혈포식자
+    if(clickedItem === undefined && items !== undefined) clickedItem = items.filter(item => item.name === "선혈포식자")[0];
+
+    // 아이템의 상위조합
     if(clickedItem !== undefined && 'into' in clickedItem) {
         intoItem = clickedItem.into;
     }
 
+    // 클릭한 아이템의 조합식
     if(clickedItem !== undefined && 'from' in clickedItem) {
         baseItem = clickedItem.from;
         baseItemInfo = baseItem.map(item => items.filter(token => token.image.full.substring(0, 4).includes(item))[0]);
         fromItem = baseItemInfo.map(item => item.from && item.from);
     }
+
 
     return (
         <Container>
@@ -265,8 +271,8 @@ const ItemDetail = ({ items, clickedItem, imageURL, handleClick }) => {
                 })}
             </ItemBuild>
             {clickedItem && Object.keys(clickedItem).includes('from') && 
-                    <>
-                        <RecipeTitle> 아이템조합식 </RecipeTitle>
+                <>
+                    <RecipeTitle> 아이템조합식 </RecipeTitle>
                     <ItemRecipe>
                         <ClickedItem>
                             <ItemImage bgURL={`${imageURL}${clickedItem.image.full}`}/>
