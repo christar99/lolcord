@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { itemAPI } from 'API';
+import { versionAPI, itemAPI } from 'API';
 import ItemPresenter from './ItemPresenter';
 
 
@@ -16,6 +16,7 @@ const ItemContainer = () => {
 
   const fetchURL = async () => {
     const result = await itemAPI;
+    const version = await versionAPI;
     let itemValue = Object.values(result.data.data);
 
 
@@ -32,11 +33,11 @@ const ItemContainer = () => {
         173, 174, 175, 190, 191, 196, 197, 221],
       myth: [35, 72, 80, 113, 124, 157, 164, 166, 176, 177, 178, 179, 180, 181, 182, 184, 185, 187, 188, 189, 193, 194, 195]
     } 
-
+    
     for (let type in group) {
       group[type].forEach(index => itemValue[index].group = type);
     }
-
+    
     itemValue = itemValue.filter(item => item.group !== undefined);
 
     // api 수정
@@ -83,7 +84,7 @@ const ItemContainer = () => {
     setItems(itemValue);
     setKey(Object.keys(result.data.data));
     setLoading(false);
-    setImageURL("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/");
+    setImageURL(`https://ddragon.leagueoflegends.com/cdn/${version.data[0]}/img/item/`);
   }
 
   useEffect(() => fetchURL(), []);

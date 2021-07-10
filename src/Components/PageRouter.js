@@ -12,9 +12,9 @@ const PageRouter = () => (
         <Header />
         <Switch>
             <Route path="/" exact component={Home} />
-            <Route Path="/items" exact component={Items} />
-            <Route Path="/champions" exact component={Champions} />
-            <Route Path="/lanking" exact component={Lanking} />
+            <Route path="/items" exact component={Items} />
+            <Route path="/champions" exact component={Champions} />
+            <Route path="/lanking" exact component={Lanking} />
             <Redirect from="*" to="/" />
         </Switch>
     </Router>
