@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Proptypes from 'prop-types';
+import Helmet from 'react-helmet';
 import styled from 'styled-components';
 import ItemList from 'Components/Items/ItemList';
 import ItemDetail from 'Components/Items/ItemDetail';
@@ -238,97 +239,102 @@ const ItemPresenter = ({items, id, loading, imageURL, handleChange, searchValue,
     }
 
     return (
-        <Container>
-            <Modal onClick={modalOff} state={modalState}>
-                <ItemListModalBox>
-                    <ModalOff>※설명창을 종료하려면 아무곳을 클릭해주세요.</ModalOff>
-                    <ModalSearch>
-                        <ExplainSearch>
-                            <Arrow>↑</Arrow>
-                            <Explain>이 부분은 검색창입니다. 검색해서 아이템을 쉽게 찾으세요.</Explain>
-                        </ExplainSearch>
-                    </ModalSearch>
+        <>
+            <Helmet>
+                <title>LOLCORD 아이템도감</title>
+            </Helmet>
+            <Container>
+                <Modal onClick={modalOff} state={modalState}>
+                    <ItemListModalBox>
+                        <ModalOff>※설명창을 종료하려면 아무곳을 클릭해주세요.</ModalOff>
+                        <ModalSearch>
+                            <ExplainSearch>
+                                <Arrow>↑</Arrow>
+                                <Explain>이 부분은 검색창입니다. 검색해서 아이템을 쉽게 찾으세요.</Explain>
+                            </ExplainSearch>
+                        </ModalSearch>
 
-                    <ModalFilter>
-                        <ExplainFilter>
-                            <Arrow>←</Arrow>
-                            <Explain> 이 부분은 필터입니다. 원하는 아이템을 찾고자 할 때, 필터를 클릭해 편하게 찾으세요.</Explain>
-                        </ExplainFilter>
-                    </ModalFilter>
+                        <ModalFilter>
+                            <ExplainFilter>
+                                <Arrow>←</Arrow>
+                                <Explain> 이 부분은 필터입니다. 원하는 아이템을 찾고자 할 때, 필터를 클릭해 편하게 찾으세요.</Explain>
+                            </ExplainFilter>
+                        </ModalFilter>
 
-                    <ModalList>
-                        <ExplainList>
-                            <Explain> 아이템리스트입니다. 박스안의 아이템을 클릭하면 옆박스의 세부정보가 출력됩니다.</Explain>
-                        </ExplainList>
-                     </ModalList>
-                </ItemListModalBox>
+                        <ModalList>
+                            <ExplainList>
+                                <Explain> 아이템리스트입니다. 박스안의 아이템을 클릭하면 옆박스의 세부정보가 출력됩니다.</Explain>
+                            </ExplainList>
+                        </ModalList>
+                    </ItemListModalBox>
 
-                <ItemDetailModalBox>
-                    <ModalDetail>
-                        <ExplainBuild> 이 아이템으로 조합할 수 있는 다른아이템들입니다.</ExplainBuild>
-                        <ExplainCombination>아이템 조합식입니다. </ExplainCombination>
-                        <ExplainDetail>아이템 세부정보입니다. 아이템의 능력치, 액티브와 패시브스킬등의 정보가 출력됩니다.</ExplainDetail>
-                    </ModalDetail>
-                </ItemDetailModalBox>
-            </Modal>
-            <Background bgUrl={require(`assets/Invasion_of_starGuard.jpg`).default}/>
-            <ListContainer>
-                <ItemFilter 
-                    items={items}
-                    id={id}
-                    handleCheck={handleCheck}
-                />
-                <ItemBox>
-                    <SearchBox>
-                        <SearchImage bgImage={require(`assets/search.png`).default}/>
-                        <Input placeholder="아이템 검색" onChange={handleChange}/>
-                    </SearchBox>
-                    {searchValue === undefined || searchValue === ""
-                        ? (checkedFilter === undefined || (checkedFilter.length === 0 && checkedId.length === 0)
-                            ? <ItemList // 검색도 없고 필터도 없고
-                            items={items}
-                            id={id}
-                            loading={loading}
-                            imageURL={imageURL}
-                            handleClick={handleClick}
-                            /> 
-                            : <ItemList // 검색은 없고 필터는 있고
-                            items={checkedFilter}
-                            id={id}
-                            loading={loading}
-                            imageURL={imageURL}
-                            handleClick={handleClick}
-                            /> 
-                        )
-                        : (!checkedFilter || (!checkedFilter.length && !checkedId.length)
-                            ? <ItemList // 검색은 있고 필터는 없고
-                            items={searchValue}
-                            id={id}
-                            loading={loading}
-                            imageURL={imageURL}
-                            handleClick={handleClick}
-                            />
-                            : <ItemList // 검색도 있고 필터도 있고
-                            items={interSection}
-                            id={id}
-                            loading={loading}
-                            imageURL={imageURL}
-                            handleClick={handleClick}
-                            />  
-                        )
-                    }
-                </ItemBox>
-            </ListContainer>
+                    <ItemDetailModalBox>
+                        <ModalDetail>
+                            <ExplainBuild> 이 아이템으로 조합할 수 있는 다른아이템들입니다.</ExplainBuild>
+                            <ExplainCombination>아이템 조합식입니다. </ExplainCombination>
+                            <ExplainDetail>아이템 세부정보입니다. 아이템의 능력치, 액티브와 패시브스킬등의 정보가 출력됩니다.</ExplainDetail>
+                        </ModalDetail>
+                    </ItemDetailModalBox>
+                </Modal>
+                <Background bgUrl={require(`assets/Invasion_of_starGuard.jpg`).default}/>
+                <ListContainer>
+                    <ItemFilter 
+                        items={items}
+                        id={id}
+                        handleCheck={handleCheck}
+                    />
+                    <ItemBox>
+                        <SearchBox>
+                            <SearchImage bgImage={require(`assets/search.png`).default}/>
+                            <Input placeholder="아이템 검색" onChange={handleChange}/>
+                        </SearchBox>
+                        {searchValue === undefined || searchValue === ""
+                            ? (checkedFilter === undefined || (checkedFilter.length === 0 && checkedId.length === 0)
+                                ? <ItemList // 검색도 없고 필터도 없고
+                                items={items}
+                                id={id}
+                                loading={loading}
+                                imageURL={imageURL}
+                                handleClick={handleClick}
+                                /> 
+                                : <ItemList // 검색은 없고 필터는 있고
+                                items={checkedFilter}
+                                id={id}
+                                loading={loading}
+                                imageURL={imageURL}
+                                handleClick={handleClick}
+                                /> 
+                            )
+                            : (!checkedFilter || (!checkedFilter.length && !checkedId.length)
+                                ? <ItemList // 검색은 있고 필터는 없고
+                                items={searchValue}
+                                id={id}
+                                loading={loading}
+                                imageURL={imageURL}
+                                handleClick={handleClick}
+                                />
+                                : <ItemList // 검색도 있고 필터도 있고
+                                items={interSection}
+                                id={id}
+                                loading={loading}
+                                imageURL={imageURL}
+                                handleClick={handleClick}
+                                />  
+                            )
+                        }
+                    </ItemBox>
+                </ListContainer>
 
-            <ItemDetailContainer >
-                <ItemDetail
-                    items={items}
-                    clickedItem={clickedItem}
-                    imageURL={imageURL}
-                    handleClick={handleClick}
-                />
-            </ItemDetailContainer>
-        </Container>
+                <ItemDetailContainer >
+                    <ItemDetail
+                        items={items}
+                        clickedItem={clickedItem}
+                        imageURL={imageURL}
+                        handleClick={handleClick}
+                    />
+                </ItemDetailContainer>
+            </Container>
+        </>
     );
 }
 
