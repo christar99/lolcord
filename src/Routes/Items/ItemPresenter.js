@@ -166,9 +166,8 @@ const ExplainDetail = styled.div`
 
 // 설명창 껐을때 켜는 버튼
 const ModalButton = styled.div`
-    width: 40px;
-    height: 40px;
-    border-radius: 40px;
+    width: 50px;
+    height: 50px;
     background: url(${props => props.bgURL});
     background-size: cover;
     background-position: center center;
@@ -179,7 +178,7 @@ const ModalButton = styled.div`
 
     &:hover {
         cursor: pointer;
-        background-color: #580604;
+        background: url(${props => props.afterbgURL});
     }
     @media only screen and (max-width: 768px) {
         display: none;
@@ -366,7 +365,11 @@ const ItemPresenter = ({items, id, loading, imageURL, handleChange, searchValue,
                     </ItemDetailModalBox>
                 </Modal>
 
-                <ModalButton onClick={modalOn} bgURL={require(`assets/explainButton.png`).default} />
+                <ModalButton 
+                    onClick={modalOn} 
+                    bgURL={require(`assets/explainButton-1.png`).default} 
+                    afterbgURL={require(`assets/explainButton-2.png`).default}
+                />
 
                 <Background bgUrl={require(`assets/Invasion_of_starGuard.jpg`).default}/>
 
