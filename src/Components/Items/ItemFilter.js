@@ -7,6 +7,10 @@ const Filter = styled.div`
     width: 45px;
     height: 100%;
     background-color: #2C3E50;
+
+    @media only screen and (max-width: 768px) {
+        width: 35px;
+    }
 `;
 
 const SpaceArea = styled.div`
@@ -14,6 +18,11 @@ const SpaceArea = styled.div`
     height: 50px;
     border-right: 1px solid #5D6D7E;
     border-bottom: 1px solid #5D6D7E;
+
+    @media only screen and (max-width: 768px) {
+        width: 35px; 
+        height: 40px;
+    }
 `;
 
 const FilterContent = styled.ul`
@@ -22,6 +31,10 @@ const FilterContent = styled.ul`
 
 const FilterList = styled.li`
     height: 45px;
+
+    @media only screen and (max-width: 768px) {
+        height: 35px;
+    }
 `;
 
 const Label = styled.label`
@@ -29,12 +42,17 @@ const Label = styled.label`
 `;
 
 const FilterImage = styled.input`
-        position: absolute;
-        width: 45px;
-        height: 45px;
-        opacity: 0;
-        margin: 0;
-        z-index: 0;
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    opacity: 0;
+    margin: 0;
+    z-index: 0;
+
+    @media only screen and (max-width: 768px) {
+        width: 35px;
+        height: 35px;
+    }
 
     & + ${Label} {
         display: block;

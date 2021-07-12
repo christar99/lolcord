@@ -14,6 +14,10 @@ const Container = styled.div`
     justify-content: space-evenly;
     position: relative;
     overflow: hidden;
+
+    @media only screen and (max-width: 768px) {
+        align-items: normal;
+    }
 `;
 
 // 설명을위한 모달창
@@ -28,12 +32,16 @@ const Modal = styled.div`
     align-items: center;
     justify-content: space-evenly;
     overflow: hidden;
+
+    @media only screen and (max-width: 768px) {
+        display: none;
+    }
 `;
 
 const ModalOff = styled.span`
     display: inline-block;
     position: absolute;
-    left: 35vw;
+    left: 30vw;
     top: 3vh;
     font-size: 2rem;
 `;
@@ -83,7 +91,7 @@ const ModalDetail = styled(ExplainModal)`
     width: 100%;
     height: 100%;
     border-color: rgb(0, 40, 109);
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     color: rgb(0, 40, 109);
     display: flex;
     flex-direction: column;
@@ -111,14 +119,14 @@ const ExplainSearch = styled(ExplainBox)`
 const ExplainFilter = styled(ExplainBox)`
     width: 30vw;
     left: 70px;
-    top: 30vh;
+    top: 24vh;
     color: rgb(80, 20, 0);
 `;
 
 const ExplainList = styled(ExplainBox)`
     width: 30vw;
     left: 30px;
-    top: 50vh;
+    top: 48vh;
     color: rgb(0, 40, 109);
 `;
 
@@ -156,6 +164,29 @@ const ExplainDetail = styled.div`
 `;
 //////////////////////
 
+// 설명창 껐을때 켜는 버튼
+const ModalButton = styled.div`
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    background: url(${props => props.bgURL});
+    background-size: cover;
+    background-position: center center;
+    position: absolute;
+    z-index: 200;
+    top: 100px;
+    right: 25px;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #580604;
+    }
+    @media only screen and (max-width: 768px) {
+        display: none;
+    }
+`;
+/////////////////////////
+
 const Background = styled.div`
     top: 0;
     left: 0;
@@ -176,6 +207,13 @@ const ListContainer = styled.div`
     background-color: rgb(75,93,113);
     display: flex;
     z-index: 2;
+    
+    @media only screen and (max-width: 768px) {
+        width: 80vw;
+        display: ${props => props.clickedItem === undefined ? "flex" : "none"};
+        position: relative;
+        top: 10vh;
+    }
 `;
 
 
@@ -184,6 +222,10 @@ const ItemBox = styled.div`
     height: 100%;
     display: grid;
     grid-template-rows: 50px 1fr;
+
+    @media only screen and (max-width: 768px) {
+        grid-template-rows: 40px 1fr;
+    }
 `;
 
 
@@ -191,6 +233,10 @@ const SearchBox = styled.div`
     background-color: #2C3E50;
     padding-top: 8px;
     padding-left: 3%;
+
+    @media only screen and (max-width: 768px) {
+        padding-top: 5px;
+    }
 `;
 
 
@@ -206,6 +252,11 @@ const Input = styled.input`
     ::placeholder {
         color: #808B96;
     }
+
+    @media only screen and (max-width: 768px) {
+        height: 30px;
+        padding-left: 30px;
+    }
 `;
 
 const SearchImage = styled.div`
@@ -215,19 +266,53 @@ const SearchImage = styled.div`
     background: url(${props => props.bgImage}) no-repeat;
     margin-top: 8px;
     margin-left: 8px;
+
+    @media only screen and (max-width: 768px) {
+        width: 15px;
+        height: 15px;
+        margin-top: 8px;
+        margin-left: 8px;
+    }
 `;
 
 
 const ItemDetailContainer = styled.div`
-    width: 30%;
-    height: 83%;
+    width: 30vw;
+    height: 83vh;
     display: flex;
     background-color: #212F3D;
     z-index: 2;
+
+    @media only screen and (max-width: 768px) {
+        display: ${props => props.clickedItem === undefined ? "none" : "flex"};
+        width: 80vw;
+        height: 76vh;
+        position: relative;
+        top: 10vh;
+    }
+`;
+
+const CloseButton = styled.div`
+    display: none;
+    width: 80vw;
+    height: 6vh;
+    background-color: rgb(235,102,45);
+    position: fixed;
+    bottom: 8vh;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    @media only screen and (max-width: 768px) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 `;
 
 const ItemPresenter = ({items, id, loading, imageURL, handleChange, searchValue, 
-    handleClick, clickedItem, handleCheck, checkedFilter, checkedId }) => {
+    handleClick, clickedItem, removeClickedItem, handleCheck, checkedFilter, checkedId }) => {
     let interSection = [];
     const [modalState, setModalState] = useState(true);
     if(searchValue !== undefined && checkedFilter !== undefined){
@@ -238,12 +323,16 @@ const ItemPresenter = ({items, id, loading, imageURL, handleChange, searchValue,
         setModalState(false);
     }
 
+    const modalOn = () => {
+        setModalState(true);
+    }
+
     return (
         <>
             <Helmet>
                 <title>LOLCORD 아이템도감</title>
             </Helmet>
-            <Container>
+            <Container clickedItem={clickedItem}>
                 <Modal onClick={modalOff} state={modalState}>
                     <ItemListModalBox>
                         <ModalOff>※설명창을 종료하려면 아무곳을 클릭해주세요.</ModalOff>
@@ -276,8 +365,12 @@ const ItemPresenter = ({items, id, loading, imageURL, handleChange, searchValue,
                         </ModalDetail>
                     </ItemDetailModalBox>
                 </Modal>
+
+                <ModalButton onClick={modalOn} bgURL={require(`assets/explainButton.png`).default} />
+
                 <Background bgUrl={require(`assets/Invasion_of_starGuard.jpg`).default}/>
-                <ListContainer>
+
+                <ListContainer clickedItem={clickedItem}>
                     <ItemFilter 
                         items={items}
                         id={id}
@@ -325,13 +418,14 @@ const ItemPresenter = ({items, id, loading, imageURL, handleChange, searchValue,
                     </ItemBox>
                 </ListContainer>
 
-                <ItemDetailContainer >
+                <ItemDetailContainer clickedItem={clickedItem}>
                     <ItemDetail
                         items={items}
                         clickedItem={clickedItem}
                         imageURL={imageURL}
                         handleClick={handleClick}
                     />
+                    <CloseButton onClick={removeClickedItem}>닫기</CloseButton>
                 </ItemDetailContainer>
             </Container>
         </>

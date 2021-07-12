@@ -34,6 +34,12 @@ const Section = styled.div`
     grid-template-columns: repeat(auto-fill, 40px);
     grid-gap: 15px;
     margin-bottom: 50px;
+
+    
+    @media only screen and (max-width: 768px) {
+        grid-template-columns: repeat(auto-fill, 30px);
+        grid-gap: 10px;
+    }
 `;
 
 const ItemName = styled.span`
@@ -67,6 +73,11 @@ const ItemImage = styled.button`
     &:focus {
         border: 2px solid #AED6F1;
     }
+
+    @media only screen and (max-width: 768px) {
+        width: 30px;
+        height: 30px;
+    }
 `;
 
 const ItemGold = styled.span`
@@ -74,6 +85,10 @@ const ItemGold = styled.span`
     display: flex;
     justify-content: center;
     margin-top: 5px;
+/* 
+    @media only screen and (max-width: 768px) {
+        display: inline;
+    } */
 `;
 
 const ItemList = ({ items, id, loading, imageURL, handleClick}) => {

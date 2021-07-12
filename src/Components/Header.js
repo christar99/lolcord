@@ -16,13 +16,18 @@ const Container = styled.header`
 const Title = styled.span`
     margin-left: 20px;
     font-size: 30px;
+
+    @media only screen and (max-width: 768px) {
+        font-size: 23px;
+        margin-left: 15px;
+    }
 `;
 
 const Version = styled.div`
     margin: 0;
     float: right;
-    margin-right: 30px;
-    font-size: 14px;
+    margin-right: 10px;
+    font-size: 13px;
 `;
 
 const Content = styled.div`
@@ -30,7 +35,10 @@ const Content = styled.div`
     margin-left: 20px;
     font-size: 16px;
 
-
+    @media only screen and (max-width: 768px) {
+        font-size: 13px;
+        margin-left: 8px;
+    }
 `;
 
 const Items = styled.span`

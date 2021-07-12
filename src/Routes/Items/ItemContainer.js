@@ -146,7 +146,13 @@ const ItemContainer = () => {
       else enableItem = [...enableItem].filter(item => item.tags.includes(token));
     })  
     setCheckedFilter(enableItem);
+
   }
+  
+  const removeClickedItem = () => {
+    setClickedItem(undefined);
+  }
+
   
   
   
@@ -162,6 +168,7 @@ const ItemContainer = () => {
       searchValue={searchValue}
       handleClick={handleClick}
       clickedItem={clickedItem}
+      removeClickedItem={removeClickedItem}
       handleCheck={handleCheck}
       checkedFilter={checkedFilter}
       checkedId={[...checkedId]}

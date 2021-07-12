@@ -22,7 +22,7 @@ const Background = styled.div`
     background-size: cover;
 `;
 
-const ChampionPresenter = () => {
+const ChampionPresenter = ({ champions }) => {
     return (
         <>
             <Helmet>

@@ -7,14 +7,15 @@ const ChampionContainer = () => {
     const [champions, setChampions] = useState();
 
     const fetchURL = async () => {
-        // const beforeConversation = await ChampionAPI();
         setChampions(await ChampionAPI());
     }
 
     useEffect(() => fetchURL(), []);
 
     return (
-        <ChampionPresenter />
+        <ChampionPresenter 
+            champions={champions}
+        />
     );
 }
 
