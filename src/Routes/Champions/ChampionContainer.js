@@ -5,12 +5,14 @@ import { ChampionAPI } from 'API';
 
 const ChampionContainer = () => {
     const [champions, setChampions] = useState();
-
-    const fetchURL = async () => {
-        setChampions(await ChampionAPI());
+    
+    const encodingChmapions = async () => {
+        let result = await ChampionAPI();
+        setChampions(result.map(champion => Object.values(champion)[0]));
     }
 
-    useEffect(() => fetchURL(), []);
+    useEffect(() => encodingChmapions(), []);
+
 
     return (
         <ChampionPresenter 
