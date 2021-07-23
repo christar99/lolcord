@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Loader from 'Components/Loader';
 
 const Items = styled.div`
     width: 100%; 
@@ -91,86 +90,80 @@ const ItemGold = styled.span`
     } */
 `;
 
-const ItemList = ({ items, id, loading, imageURL, handleClick}) => {
+const ItemList = ({ items, id, imageURL, handleClick}) => {
     const checkGroup = groupName => {
         let result = items.filter(item => item.group === groupName);
         return result;
     }
 
     return (
-        <>
-            {loading ? <Loader />
-                : <Items>
-                    <Title checkGroup={checkGroup("start").length} >시작</Title>
-                    <Section checkGroup={checkGroup("start").length}>
-                        {items.map(item => {
-                            return item.group === "start" &&
-                                <Start key={item.image.full}>
-                                    <ItemImage title={item.name} id={item.image.full} bgurl={imageURL + item.image.full} onClick={handleClick}/>
-                                    <ItemGold>{item.gold.total}</ItemGold>
-                                    <ItemName>{item.name}</ItemName>
-                                </Start>
-                        })} 
-                    </Section>  
+        <Items>
+            <Title checkGroup={checkGroup("start").length} >시작</Title>
+            <Section checkGroup={checkGroup("start").length}>
+                {items.map(item => {
+                    return item.group === "start" &&
+                        <Start key={item.image.full}>
+                            <ItemImage title={item.name} id={item.image.full} bgurl={imageURL + item.image.full} onClick={handleClick}/>
+                            <ItemGold>{item.gold.total}</ItemGold>
+                            <ItemName>{item.name}</ItemName>
+                        </Start>
+                })} 
+            </Section>  
 
-                    <Title checkGroup={checkGroup("basic").length} >기본</Title>
-                    <Section checkGroup={checkGroup("basic").length}>
-                        {items.map(item => {
-                            return item.group === "basic" &&
-                                <Start key={item.image.full}>
-                                    <ItemImage title={item.name} id={item.image.full} bgurl={imageURL + item.image.full}  onClick={handleClick}/>
-                                    <ItemGold>{item.gold.total}</ItemGold>
-                                    <ItemName>{item.name}</ItemName>
-                                </Start>
-                        })}
-                    </Section>
+            <Title checkGroup={checkGroup("basic").length} >기본</Title>
+            <Section checkGroup={checkGroup("basic").length}>
+                {items.map(item => {
+                    return item.group === "basic" &&
+                        <Start key={item.image.full}>
+                            <ItemImage title={item.name} id={item.image.full} bgurl={imageURL + item.image.full}  onClick={handleClick}/>
+                            <ItemGold>{item.gold.total}</ItemGold>
+                            <ItemName>{item.name}</ItemName>
+                        </Start>
+                })}
+            </Section>
 
-                    <Title checkGroup={checkGroup("epic").length} >서사급</Title>
-                    <Section checkGroup={checkGroup("epic").length}>
-                        {items.map(item => {
-                            return item.group === "epic" &&
-                                <Start key={item.image.full}>
-                                    <ItemImage title={item.name} id={item.image.full} bgurl={imageURL + item.image.full}  onClick={handleClick}/>
-                                    <ItemGold>{item.gold.total}</ItemGold>
-                                    <ItemName>{item.name}</ItemName>
-                                </Start>
-                        })}
-                    </Section>
+            <Title checkGroup={checkGroup("epic").length} >서사급</Title>
+            <Section checkGroup={checkGroup("epic").length}>
+                {items.map(item => {
+                    return item.group === "epic" &&
+                        <Start key={item.image.full}>
+                            <ItemImage title={item.name} id={item.image.full} bgurl={imageURL + item.image.full}  onClick={handleClick}/>
+                            <ItemGold>{item.gold.total}</ItemGold>
+                            <ItemName>{item.name}</ItemName>
+                        </Start>
+                })}
+            </Section>
 
-                    <Title checkGroup={checkGroup("legend").length} >전설급</Title>
-                    <Section checkGroup={checkGroup("legend").length}>
-                        {items.map(item => {
-                            return item.group === "legend" &&
-                                <Start key={item.image.full}>
-                                    <ItemImage title={item.name} id={item.image.full} bgurl={imageURL + item.image.full}  onClick={handleClick}/>
-                                    <ItemGold>{item.gold.total}</ItemGold>
-                                    <ItemName>{item.name}</ItemName>
-                                </Start>
-                        })}
-                    </Section>
+            <Title checkGroup={checkGroup("legend").length} >전설급</Title>
+            <Section checkGroup={checkGroup("legend").length}>
+                {items.map(item => {
+                    return item.group === "legend" &&
+                        <Start key={item.image.full}>
+                            <ItemImage title={item.name} id={item.image.full} bgurl={imageURL + item.image.full}  onClick={handleClick}/>
+                            <ItemGold>{item.gold.total}</ItemGold>
+                            <ItemName>{item.name}</ItemName>
+                        </Start>
+                })}
+            </Section>
 
-                    <Title checkGroup={checkGroup("myth").length} >신화급</Title>
-                    <Section checkGroup={checkGroup("myth").length}>
-                        {items.map(item => {
-                            return item.group === "myth" &&
-                                <Start key={item.image.full}>
-                                    <ItemImage title={item.name} id={item.image.full} bgurl={imageURL + item.image.full}  onClick={handleClick}/>
-                                    <ItemGold>{item.gold.total}</ItemGold>
-                                    <ItemName>{item.name}</ItemName>
-                                </Start>
-                        })}
-                    </Section>
-
-                </Items>
-            }
-        </>
+            <Title checkGroup={checkGroup("myth").length} >신화급</Title>
+            <Section checkGroup={checkGroup("myth").length}>
+                {items.map(item => {
+                    return item.group === "myth" &&
+                        <Start key={item.image.full}>
+                            <ItemImage title={item.name} id={item.image.full} bgurl={imageURL + item.image.full}  onClick={handleClick}/>
+                            <ItemGold>{item.gold.total}</ItemGold>
+                            <ItemName>{item.name}</ItemName>
+                        </Start>
+                })}
+            </Section>
+        </Items>
     );
 }
 
 ItemList.propTypes = {
     items: PropTypes.array,
     id: PropTypes.array,
-    loading: PropTypes.bool,
     imageURL: PropTypes.string,
     handleClick: PropTypes.func
 }
