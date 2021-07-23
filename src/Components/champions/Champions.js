@@ -12,9 +12,10 @@ const Container = styled.div`
 
 const ChampionListContainer = styled.div`
     width: 100%;
-    height: 100%;
+    height: 90%;
     margin-top: 10px;
     background-color: #212F3D;
+    padding-bottom: 10px;
 `;
 
 const SearchContainer = styled.div`
@@ -67,7 +68,6 @@ const ListContainer = styled.div`
     grid-template-columns: repeat(auto-fill, 80px);
     grid-gap: 10px;
     overflow-y: auto;
-    padding: 10px;
     justify-content: center;
 
     ::-webkit-scrollbar {

@@ -4,6 +4,7 @@ import { versionAPI, ChampionAPI } from 'API';
 
 
 const ChampionContainer = () => {
+    const [loading, setLoading] = useState(true);
     const [champions, setChampions] = useState();
     const [recentVersion, setRecentVersion] = useState();
     const [group, setGroup] = useState("All");
@@ -13,6 +14,7 @@ const ChampionContainer = () => {
         const version = await versionAPI;
         let result = await ChampionAPI();
         
+        setLoading(false);
         setChampions(result.map(champion => Object.values(champion)[0]));
         setRecentVersion(version.data[0]);
     }
@@ -35,6 +37,7 @@ const ChampionContainer = () => {
 
     return (
         <ChampionPresenter 
+            loading={loading}
             version={recentVersion}
             champions={champions}
             selectedGroup={selectedGroup}
