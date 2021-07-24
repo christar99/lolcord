@@ -93,6 +93,7 @@ const ChampionProperty = styled.div`
 
     &:hover {
         cursor: pointer;
+        border: 1px solid skyblue;
     }
 `;
 
