@@ -187,4 +187,42 @@
   -ms-scroll-snap-type: y mandatory;
       scroll-snap-type: y mandatory;
 }
+
+.swiper-slide-active div {
+  -webkit-transition: none;
+  transition: none;
+}
+
+.swiper-slide-active span {
+  -webkit-transition: none;
+  transition: none;
+}
+
+.swiper-slide-next {
+  width: 550px !important;
+  height: 300px;
+  margin-top: 50px;
+  margin-right: 4%;
+}
+
+.swiper-slide-next div.championImage {
+  width: 167px;
+  height: 300px;
+  margin-top: 0;
+  -webkit-transition: none;
+  transition: none;
+}
+
+.swiper-slide-next div.championImage:hover {
+  width: 167px;
+  height: 300px;
+}
+
+.swiper-slide-next span.championName {
+  display: none;
+}
+
+.swiper-slide-next div.championInfo {
+  display: block;
+}
 /*# sourceMappingURL=swiper.css.map */

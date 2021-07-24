@@ -140,5 +140,40 @@
   }
 }
 
+.swiper-slide-active {
+  div {
+    transition: none;
+  }
+  span {
+    transition: none;
+  }
+}
+
+.swiper-slide-next {
+  width: 550px !important;
+  height: 300px;
+  margin-top: 50px;
+  margin-right: 4%;
+
+  div.championImage {
+    width: 167px;
+    height: 300px;
+    margin-top: 0;
+    transition: none;
+
+    &:hover {
+      width: 167px;
+      height: 300px;
+    }
+  }
+
+  span.championName {
+    display: none;
+  }
+
+  div.championInfo {
+    display: block;
+  }
+}
 
 
