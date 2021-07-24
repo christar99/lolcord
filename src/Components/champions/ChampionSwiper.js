@@ -178,7 +178,7 @@ const ChampionSwiper = ({ champions }) => {
                     return (
                         <SwiperSlide>
                             <ChampionCard key={champion.key}>
-                                <ChampionImage className="championImage" bgURL={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`}>
+                                <ChampionImage className="championImage" bgURL={`https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`}>
                                     <ChampionName className="championName">{champion.name}</ChampionName>
                                 </ChampionImage>
                                 <ChampionInfo className="championInfo">
