@@ -1,27 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Navigation } from 'swiper/core';
-import "Components/css/swiper.css";
+import SwiperCore, { Pagination, Navigation } from 'swiper/core';
+import "swiper/components/pagination/pagination.min.css"
 import "swiper/components/navigation/navigation.scss";
+import "swiper/swiper.scss";
 
 
 const SwiperContainer = styled.div`
     width: 95vw;
     height: 400px;
     z-index: 21;
-    margin-top: 50px;
+    display: flex;
+    align-items: center;
+
+    .swiper-slide {
+        width: auto !important;
+    }
+
+    .swiper-container {
+        height: 350px;
+    }
+
+    .swiper-pagination {
+        width: 100%;
+        height: 10px;
+        bottom: 0 ;
+        top: auto;
+        z-index: 250;
+        margin-top: 30px;
+    }
 `;
 
 const ChampionCard = styled.div`
-    width: 550px;
+    width: ${props => props.shouldOpenIt ? "550px" : "124px"};
     height: 300px;
     display: flex;
 `;
 
 
 const ChampionName = styled.span`
-    width: 124px;
+    width: 100%;
     height: 40px;
     opacity: 0.8;
     background-color: black;
@@ -36,19 +55,19 @@ const ChampionName = styled.span`
 `;
 
 const ChampionImage = styled.div`
-    width: 124px;
-    height: 224px;
+    width: ${props => props.shouldOpenIt ? "167px" : "124px"};
+    height: ${props => props.shouldOpenIt ? "300px" : "224px"};
     background: url(${props => props.bgURL});
     background-size: cover;
     background-position: center center;
     position: relative;
     bottom: 0;
     transition-duration: 0.5s;
-    margin-top: 100px;
+    margin-top: ${props => props.shouldOpenIt ? 0 : "50px"};
 
     &:hover {
-        width: 140px;
-        height: 252px;
+        width: ${props => props.shouldOpenIt ? "167px" : "140px"};
+        height: ${props => props.shouldOpenIt ? "300px" : "252px"};
         cursor: pointer;
 
         ${ChampionName} {
@@ -58,7 +77,7 @@ const ChampionImage = styled.div`
 `;
 
 const ChampionInfo = styled.div`
-    display: none;
+    display: ${props => props.shouldOpenIt ? "block" : "none"};
     width: 383px;
     height: 100%;
     background-color: #212F3D;
@@ -157,31 +176,62 @@ const TipList = styled.li`
 `;
 
 
-
-SwiperCore.use([Navigation]);
+SwiperCore.use([Pagination, Navigation]);
 
 const ChampionSwiper = ({ champions }) => {
-    // const clickSlide = event => {
-    //     console.log(event.target);
-    //     // event.target.parenteNode.classList.add("swiper-slide-next");
-    // }
+    const [championKey, setChampionKey] = useState();
+
+    const openInfo = (key, event) => {
+        setChampionKey(key);
+
+        // 클릭한 카드와 전체 컨테이너
+        let target = event.target.closest(".swiper-slide");
+        let wrapper = event.target.closest(".swiper-wrapper");
+        let container = event.target.closest(".swiper-container");
+
+        // 타겟의 포지션
+        let targetPosition = target.offsetLeft;
+        let containerHarf = container.offsetWidth /2;
+        // 134는 챔피언카드 1개의 너비 + 여백 1개, 416은 550-134
+        let slideWidth = 134 * champions.length + 416;
+        // 275 = 550 / 2
+        let selectTargetPosition = targetPosition + 275;
+        let position;
+
+        if (selectTargetPosition <= containerHarf) position = 0; // left
+        else if ((slideWidth - selectTargetPosition) <= containerHarf) position = slideWidth - containerHarf * 2; //right
+        else position = targetPosition - containerHarf + 135;
+
+
+        setTimeout(() => {
+            wrapper.style.transform = `translate3d(${position*-1}px, 0, 0)`;
+            wrapper.style.transitionDuration = `0.8s`;
+        }, 0);
+    }
 
     return (
         <SwiperContainer>
             <Swiper
-                spaceBetween={0}
-                slidesPerView={7}
-                loop={true}
+                spaceBetween={10}
                 navigation
+                pagination={{ "type": "progressbar" }}
+                preventClicks={true}
+                preventClicksPropagation={false}
             >
                 {champions && champions.map(champion => {
                     return (
                         <SwiperSlide>
-                            <ChampionCard key={champion.key}>
-                                <ChampionImage className="championImage" bgURL={`https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`}>
-                                    <ChampionName className="championName">{champion.name}</ChampionName>
+                            <ChampionCard shouldOpenIt={championKey === champion.key}>
+                                <ChampionImage
+                                    shouldOpenIt={championKey === champion.key}
+                                    bgURL={`https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`}
+                                    onClick={event => openInfo(champion.key, event)}
+                                >
+
+                                    <ChampionName>{champion.name}</ChampionName>
                                 </ChampionImage>
-                                <ChampionInfo className="championInfo">
+
+                                <ChampionInfo shouldOpenIt={championKey === champion.key} >
                                     <Name>{champion.name}</Name>
                                     <Title>{champion.title}</Title>
                                     <Info>
