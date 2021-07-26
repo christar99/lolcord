@@ -29,7 +29,7 @@ const Container = styled.div`
 `;
 
 
-const ChampionPresenter = ({ loading, version, champions, selectedGroup, group, searchChampions, searchValue }) => {
+const ChampionPresenter = ({ loading, version, champions, selectedGroup, group, searchChampions, searchValue, clickChampion, clickedChampion }) => {
 
     // 선택한 챔피언그룹을 목록에 출력
     let filteredChampions = champions;
@@ -56,11 +56,13 @@ const ChampionPresenter = ({ loading, version, champions, selectedGroup, group, 
                             group={group}
                             searchChampions={searchChampions}
                             searchValue={searchValue}
+                            clickChampion={clickChampion}
                         />
 
                         {/* 챔피언 슬라이더 */}
                         <ChampionSwiper 
                             champions={champions}
+                            clickedChampion={clickedChampion}
                         />
 
                     </Container>

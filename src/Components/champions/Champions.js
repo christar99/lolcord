@@ -69,6 +69,7 @@ const ListContainer = styled.div`
     grid-gap: 10px;
     overflow-y: auto;
     justify-content: center;
+    padding-top: 10px;
 
     ::-webkit-scrollbar {
         color: black;
@@ -107,7 +108,7 @@ const ChampionName = styled.span`
 `;
 
 
-const Champions = ({ version, champions, selectedGroup, group, searchChampions, searchValue }) => {
+const Champions = ({ version, champions, selectedGroup, group, searchChampions, searchValue, clickChampion }) => {
 
     // 검색한챔피언을 목록에 출력
     if(champions !== undefined) {
@@ -192,7 +193,11 @@ const Champions = ({ version, champions, selectedGroup, group, searchChampions, 
                     <ListContainer>
                         {version && champions && champions.map(champion => {
                             return (
-                                <ChampionProperty bgURL={`https://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${champion.id}.png`} key={champion.key}>
+                                <ChampionProperty 
+                                    bgURL={`https://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${champion.id}.png`} 
+                                    key={champion.key}
+                                    onClick={() => clickChampion(champion.key)}
+                                >
                                     <ChampionName>{champion.name}</ChampionName>
                                 </ChampionProperty>
                             )

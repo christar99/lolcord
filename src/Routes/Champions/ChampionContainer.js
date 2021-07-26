@@ -9,6 +9,7 @@ const ChampionContainer = () => {
     const [recentVersion, setRecentVersion] = useState();
     const [group, setGroup] = useState("All");
     const [searchValue, setSearchValue] = useState("");
+    const [clickedChampion, setClickedChampion] = useState();
     
     const encodingChmapions = async () => {
         const version = await versionAPI;
@@ -33,12 +34,16 @@ const ChampionContainer = () => {
     const searchChampions = event => {
         setSearchValue(event.target.value);
     }
+
+    const clickChampion = key => {
+        let championProps = champions.filter(champion => champion.key === key);
+        setClickedChampion(championProps[0]);
+    }
     
     useEffect(() => {
         encodingChmapions();
     }, []);
 
-    
 
     return (
         <ChampionPresenter 
@@ -49,6 +54,8 @@ const ChampionContainer = () => {
             group={group}
             searchChampions={searchChampions}
             searchValue={searchValue}
+            clickChampion={clickChampion}
+            clickedChampion={clickedChampion}
         />
     );
 }

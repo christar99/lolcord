@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Pagination, Navigation } from 'swiper/core';
@@ -13,6 +13,7 @@ const SwiperContainer = styled.div`
     z-index: 21;
     display: flex;
     align-items: center;
+    user-select: none;
 
     .swiper-slide {
         width: auto !important;
@@ -66,9 +67,8 @@ const ChampionImage = styled.div`
     margin-top: ${props => props.shouldOpenIt ? 0 : "50px"};
 
     &:hover {
-        width: ${props => props.shouldOpenIt ? "167px" : "140px"};
-        height: ${props => props.shouldOpenIt ? "300px" : "252px"};
-        cursor: pointer;
+        border: ${props => props.shouldOpenIt ? "none" : "2px solid skyblue"};
+        cursor: pointer;    
 
         ${ChampionName} {
             width: 100%;
@@ -107,6 +107,24 @@ const Title = styled.span`
     font-size: 1rem;
     margin-top: 10px;
     margin-bottom: 20px;
+`;
+
+const ViewDetails = styled.div`
+    font-size: 1rem;
+    width: 120px;
+    height: 30px;
+    float: right;
+    display: grid;
+    place-items: center;
+    border-radius: 3px;
+    background-color: white;
+    color: #212F3D;
+    
+    &:hover {
+        cursor: pointer;
+        background-color: skyblue;
+        color: black;
+    }
 `;
 
 const Info = styled.div`
@@ -178,40 +196,56 @@ const TipList = styled.li`
 
 SwiperCore.use([Pagination, Navigation]);
 
-const ChampionSwiper = ({ champions }) => {
+const ChampionSwiper = ({ champions, clickedChampion }) => {
     const [championKey, setChampionKey] = useState();
-
-    const openInfo = (key, event) => {
-        setChampionKey(key);
-
+    
+    const openInfo = target => {
+        
         // 클릭한 카드와 전체 컨테이너
-        let target = event.target.closest(".swiper-slide");
-        let wrapper = event.target.closest(".swiper-wrapper");
-        let container = event.target.closest(".swiper-container");
-
+        let slide = target.closest(".swiper-slide");
+        let wrapper = target.closest(".swiper-wrapper");
+        let container = target.closest(".swiper-container");
+        
         // 타겟의 포지션
-        let targetPosition = target.offsetLeft;
+        let targetPosition = slide.offsetLeft;
         let containerHarf = container.offsetWidth /2;
         // 134는 챔피언카드 1개의 너비 + 여백 1개, 416은 550-134
         let slideWidth = 134 * champions.length + 416;
         // 275 = 550 / 2
         let selectTargetPosition = targetPosition + 275;
         let position;
-
+        
         if (selectTargetPosition <= containerHarf) position = 0; // left
         else if ((slideWidth - selectTargetPosition) <= containerHarf) position = slideWidth - containerHarf * 2; //right
         else position = targetPosition - containerHarf + 135;
-
-
+        
+        
         setTimeout(() => {
             wrapper.style.transform = `translate3d(${position*-1}px, 0, 0)`;
             wrapper.style.transitionDuration = `0.8s`;
         }, 0);
     }
+    
+    
+    const clickCard = (key, event) => {
+        setChampionKey(key);
+        openInfo(event.target);
+    }
+    
+    const designateCard = () => {
+        let target = document.querySelector(`.${clickedChampion.id}`);
+        setChampionKey(clickedChampion.key);
+        openInfo(target);
+    }
+    
+    useEffect(() => {
+        if(clickedChampion !== undefined) designateCard();
+    }, [clickedChampion]);
 
     return (
         <SwiperContainer>
             <Swiper
+                slidesPerView={12}
                 spaceBetween={10}
                 navigation
                 pagination={{ "type": "progressbar" }}
@@ -223,17 +257,18 @@ const ChampionSwiper = ({ champions }) => {
                         <SwiperSlide>
                             <ChampionCard shouldOpenIt={championKey === champion.key}>
                                 <ChampionImage
+                                    className={champion.id}
                                     shouldOpenIt={championKey === champion.key}
                                     bgURL={`https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`}
-                                    onClick={event => openInfo(champion.key, event)}
+                                    onClick={event => clickCard(champion.key, event)}
                                 >
-
                                     <ChampionName>{champion.name}</ChampionName>
                                 </ChampionImage>
 
                                 <ChampionInfo shouldOpenIt={championKey === champion.key} >
                                     <Name>{champion.name}</Name>
                                     <Title>{champion.title}</Title>
+                                    <ViewDetails>챔피언 상세보기</ViewDetails>
                                     <Info>
                                         <Attack attack={champion.info.attack}>평타데미지</Attack>
                                         <Magic magic={champion.info.magic}>스킬데미지</Magic>
