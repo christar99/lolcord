@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Pagination, Navigation } from 'swiper/core';
@@ -119,12 +120,24 @@ const ViewDetails = styled.div`
     border-radius: 3px;
     background-color: white;
     color: #212F3D;
+    border: 1px solid black;
     
     &:hover {
         cursor: pointer;
         background-color: skyblue;
         color: black;
     }
+`;
+
+const ClickImage = styled.div`
+    width: 50px;
+    height: 50px;
+    background: url(${props => props.bgURL});
+    background-size: cover;
+    background-position: center center;
+    position: absolute;
+    right: 35px;
+    top: 42px;
 `;
 
 const Info = styled.div`
@@ -268,7 +281,13 @@ const ChampionSwiper = ({ champions, clickedChampion }) => {
                                 <ChampionInfo shouldOpenIt={championKey === champion.key} >
                                     <Name>{champion.name}</Name>
                                     <Title>{champion.title}</Title>
-                                    <ViewDetails>챔피언 상세보기</ViewDetails>
+                                    <Link to={{
+                                        pathname: `champions/${champion.id}`,
+                                        state: champion
+                                    }}>
+                                        <ViewDetails>챔피언 상세보기</ViewDetails>
+                                    </Link>
+                                    <ClickImage bgURL={require(`assets/click.png`).default} />
                                     <Info>
                                         <Attack attack={champion.info.attack}>평타데미지</Attack>
                                         <Magic magic={champion.info.magic}>스킬데미지</Magic>
