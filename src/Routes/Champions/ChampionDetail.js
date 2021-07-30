@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useLocation } from 'react-router';
 import styled from 'styled-components';
@@ -30,7 +30,7 @@ const Wrap = styled.div`
 const Container = styled.div`
     width: 80vw;
     height: 80vh;
-    background-color: #212F3D;
+    background-color: black;
     z-index: 20;
     color: #fff;
 `;
@@ -40,6 +40,7 @@ const ChampionName = styled.span`
     align-items: center;
     font-size: 2rem;
     margin: 30px;
+    z-index: 25;
 `;
 
 const Positions = styled.div`
@@ -60,10 +61,13 @@ const SubName = styled.span`
 `;
 
 const Navigation = styled.ul`
-    width: 100%;
+    width: 225px;
     height: 40px;
     display: flex;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
     margin-left: 30px;
+    margin-bottom: 20px;
 `;
 
 const NavigationList = styled.li`
@@ -72,8 +76,9 @@ const NavigationList = styled.li`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
-    color: #C6C6C6;
+    font-size: 1.5rem;
+    color: ${props => props.isSelected ? "#fff" : "#6C6C6C" };
+    text-decoration: ${props => props.isSelected ? "underline 2px" : "none"};
 
     &:hover {
         cursor: pointer;
@@ -81,9 +86,16 @@ const NavigationList = styled.li`
     }
 `;
 
+const Content = styled.div`
+    width: 100%;
+    height: calc(100% - 150px);
+    `;
+
 const ChampionDetail = () => {
     let location = useLocation();
     let champion = location.state;
+    const [menu, setMenu] = useState("outline");
+    
     switch (champion.tags[0]) {
         case "Assassin":
             champion.position = "암살자"
@@ -104,8 +116,11 @@ const ChampionDetail = () => {
             champion.position = "탱커"
             break;
      }
+
+    const selectMenu = event => {
+        setMenu(event.target.id);
+    }
         
-    console.log(champion);
     return (
         <>
             <Helmet>
@@ -122,13 +137,15 @@ const ChampionDetail = () => {
                     </ChampionName>
                     
                     <Navigation>
-                        <NavigationList>개요</NavigationList>
-                        <NavigationList>스킬</NavigationList>
-                        <NavigationList>스킨</NavigationList>
+                        <NavigationList id="outline" isSelected={menu === "outline"} onClick={selectMenu} >개요</NavigationList>
+                        <NavigationList id="skills" isSelected={menu === "skills"} onClick={selectMenu}>스킬</NavigationList>
+                        <NavigationList id="skin" isSelected={menu === "skin"} onClick={selectMenu}>스킨</NavigationList>
                     </Navigation>
-                    {/* <Outline></Outline>
-                    <Skills></Skills>
-                    <Skin></Skin> */}
+                    <Content>
+                        <Outline isSelected={menu === "outline"} champion={champion}/>
+                        <Skills isSelected={menu === "skills"} champion={champion}/>
+                        <Skin isSelected={menu === "skin"} champion={champion}/>
+                    </Content>
                 </Container>
             </Wrap>
         </>

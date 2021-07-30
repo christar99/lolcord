@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Container = styled.div`
     width: 100%;
     height: 100%;
-    display: flex;
+    display: ${props => props.isSelected ? "flex" : "none"};
 `;
 const ChampionImage = styled.div`
     width: 55vw;
@@ -61,9 +61,9 @@ const PerLevel = styled.span`
 `;
 
 
-const Outline = ({ champion }) => {
+const Outline = ({ champion, isSelected }) => {
     return (
-        <Container>
+        <Container isSelected={isSelected}>
             <Content>
                 <Discription>{champion.lore}</Discription>
                 <SubTitle>스탯   
