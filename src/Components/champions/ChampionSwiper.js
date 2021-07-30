@@ -135,9 +135,9 @@ const ClickImage = styled.div`
     background: url(${props => props.bgURL});
     background-size: cover;
     background-position: center center;
-    position: absolute;
-    right: 35px;
-    top: 42px;
+    float: right;
+    margin-right: 50px;
+    margin-top: -20px;
 `;
 
 const Info = styled.div`
