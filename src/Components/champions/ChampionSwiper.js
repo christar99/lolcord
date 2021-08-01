@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Pagination, Navigation } from 'swiper/core';
-import "swiper/components/pagination/pagination.min.css"
+import SwiperCore, { Scrollbar, Navigation } from 'swiper/core';
+import "swiper/components/scrollbar/scrollbar.min.css"
 import "swiper/components/navigation/navigation.scss";
 import "swiper/swiper.scss";
 
@@ -23,13 +24,22 @@ const SwiperContainer = styled.div`
         height: 350px;
     }
 
-    .swiper-pagination {
+    .swiper-scrollbar {
         width: 100%;
         height: 10px;
         bottom: 0 ;
         top: auto;
         z-index: 250;
         margin-top: 30px;
+        background: #2C3E50;
+
+        .swiper-scrollbar-drag {
+            background: rgb(235,102,45);
+            &:hover{
+                cursor: pointer;
+                background: brown;
+            }
+        }
     }
 `;
 
@@ -119,12 +129,24 @@ const ViewDetails = styled.div`
     border-radius: 3px;
     background-color: white;
     color: #212F3D;
+    border: 1px solid black;
     
     &:hover {
         cursor: pointer;
         background-color: skyblue;
         color: black;
     }
+`;
+
+const ClickImage = styled.div`
+    width: 50px;
+    height: 50px;
+    background: url(${props => props.bgURL});
+    background-size: cover;
+    background-position: center center;
+    position: absolute;
+    top: 50px;
+    right: 50px;
 `;
 
 const Info = styled.div`
@@ -194,7 +216,7 @@ const TipList = styled.li`
 `;
 
 
-SwiperCore.use([Pagination, Navigation]);
+SwiperCore.use([Scrollbar, Navigation]);
 
 const ChampionSwiper = ({ champions, clickedChampion }) => {
     const [championKey, setChampionKey] = useState();
@@ -245,10 +267,10 @@ const ChampionSwiper = ({ champions, clickedChampion }) => {
     return (
         <SwiperContainer>
             <Swiper
-                slidesPerView={12}
+                slidesPerView={13}
                 spaceBetween={10}
                 navigation
-                pagination={{ "type": "progressbar" }}
+                scrollbar={{ "draggable": true }}
                 preventClicks={true}
                 preventClicksPropagation={false}
             >
@@ -268,7 +290,13 @@ const ChampionSwiper = ({ champions, clickedChampion }) => {
                                 <ChampionInfo shouldOpenIt={championKey === champion.key} >
                                     <Name>{champion.name}</Name>
                                     <Title>{champion.title}</Title>
-                                    <ViewDetails>챔피언 상세보기</ViewDetails>
+                                    <Link to={{
+                                        pathname: `champions/${champion.id}`,
+                                        state: champion
+                                    }}>
+                                        <ViewDetails>챔피언 상세보기</ViewDetails>
+                                    </Link>
+                                    <ClickImage bgURL={require(`assets/click.png`).default} />
                                     <Info>
                                         <Attack attack={champion.info.attack}>평타데미지</Attack>
                                         <Magic magic={champion.info.magic}>스킬데미지</Magic>
