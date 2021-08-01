@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Navigation } from 'swiper/core';
-import "swiper/components/navigation/navigation.scss";
 import "swiper/swiper.scss";
 
 const Container = styled.div`
@@ -36,20 +34,6 @@ const SwiperContainer = styled.div`
         width: 80%;
         height: 100%;
         bottom: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        
-        
-        .swiper-button-prev {
-            left: 0;
-            color: rgb(235,102,45);
-        }
-        
-        .swiper-button-next {
-            right: 0;
-            color: rgb(235,102,45);
-        }
         
         .swiper-wrapper {
             height: 125px;
@@ -113,9 +97,6 @@ const SkinImage = styled.div`
     }
 `;
 
-
-SwiperCore.use([Navigation]);
-
 const Skin = ({ champion, isSelected }) => {
     const [skinId, setSkinId] = useState(`${champion.skins[0].num}`);
     const [skinName, setSkinName] = useState(`${champion.name}`);
@@ -160,7 +141,6 @@ const Skin = ({ champion, isSelected }) => {
             <SwiperContainer>
                 <SkinName>{skinName === "default" ? champion.name : skinName}</SkinName>
                 <Swiper
-                    navigation
                     preventClicks={true}
                     preventClicksPropagation={false}
                 >
