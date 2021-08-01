@@ -34,7 +34,11 @@ const SwiperContainer = styled.div`
         background: #2C3E50;
 
         .swiper-scrollbar-drag {
-            background: black;
+            background: rgb(235,102,45);
+            &:hover{
+                cursor: pointer;
+                background: brown;
+            }
         }
     }
 `;
