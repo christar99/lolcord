@@ -25,6 +25,7 @@ const Wrap = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    user-select: none;
 `;
 
 const Container = styled.div`
@@ -40,6 +41,7 @@ const ChampionName = styled.span`
     align-items: center;
     font-size: 2rem;
     margin: 30px;
+    position: absolute;
     z-index: 25;
 `;
 
@@ -66,8 +68,11 @@ const Navigation = styled.ul`
     display: flex;
     border-top: 1px solid #fff;
     border-bottom: 1px solid #fff;
-    margin-left: 30px;
+    margin-top: 100px;
+    margin-left: 50px;
     margin-bottom: 20px;
+    position: absolute;
+    z-index: 25;
 `;
 
 const NavigationList = styled.li`
@@ -88,8 +93,8 @@ const NavigationList = styled.li`
 
 const Content = styled.div`
     width: 100%;
-    height: calc(100% - 150px);
-    `;
+    height: 100%;
+`;
 
 const ChampionDetail = () => {
     let location = useLocation();
@@ -120,7 +125,7 @@ const ChampionDetail = () => {
     const selectMenu = event => {
         setMenu(event.target.id);
     }
-        
+
     return (
         <>
             <Helmet>
