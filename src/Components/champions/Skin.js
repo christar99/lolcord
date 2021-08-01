@@ -57,7 +57,7 @@ const SkinName = styled.span`
     font-size: 1.5rem;
     font-style: italic;
     position: absolute;
-    top: -10px;
+    top: -20px;
     justify-content: center;
 
     &::before {
