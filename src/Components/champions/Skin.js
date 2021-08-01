@@ -160,7 +160,7 @@ const Skin = ({ champion, isSelected }) => {
             <SwiperContainer>
                 <SkinName>{skinName === "default" ? champion.name : skinName}</SkinName>
                 <Swiper
-                    slidesPerView={6}
+                    slidesPerView={12}
                     spaceBetween={5}
                     navigation
                     preventClicks={true}
