@@ -267,7 +267,7 @@ const ChampionSwiper = ({ champions, clickedChampion }) => {
     return (
         <SwiperContainer>
             <Swiper
-                slidesPerView={15}
+                slidesPerView={14}
                 spaceBetween={10}
                 navigation
                 scrollbar={{ "draggable": true }}
