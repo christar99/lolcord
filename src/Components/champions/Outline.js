@@ -24,6 +24,7 @@ const Content = styled.div`
     height: 100%;
     padding: 10px 30px;
     font-size: 1rem;
+    margin-top: 200px;
 `;
 
 const Discription = styled.p`
