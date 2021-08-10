@@ -214,7 +214,7 @@ const Skills = ({ champion, isSelected }) => {
 
                         </Leveltip>
                     }
-                    <Description>{selectedSkill === "0" ? skillInfo.description : skillInfo.tooltip}</Description>
+                    {/* <Description>{selectedSkill === "0" ? skillInfo.description : skillInfo.tooltip}</Description> */}
 
                     <Unprovided>
                         [?]로 표시된 값은 라이엇API에서 제공하지 않는 데이터입니다.<br/>
