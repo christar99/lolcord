@@ -129,10 +129,14 @@ const Skills = ({ champion, isSelected }) => {
                 });
             }
             // 불필요한 태그 제거, ?로 변경
-            if(skill.tooltip.includes("{")) skill.tooltip = skill.tooltip.replace(/\{\{\s[a-zA-Z0-9]+\s\}\}/g, '?').replace(/\{\{\s[a-zA-Z0-9]+\*[0-9]+\s\}\}/g, '?');
+            if(skill.tooltip.includes("{")) skill.tooltip = skill.tooltip.replace(/\{\{\s[a-zA-Z0-9*+-/=:]+\s\}\}/g, '?');
             if(skill.tooltip.includes("null")) skill.tooltip = skill.tooltip.replace("null", '?');
-            skill.tooltip = skill.tooltip.replace(/\<\/?[a-zA-Z0-9]+\>/g, '');
+            skill.tooltip = skill.tooltip.replace(/\<[/a-zA-Z0-9]+\>/g, '');
         })
+
+        if(champion.passive.description.match(/\<[/a-zA-Z0-9]+\>/g) !== null) {
+            champion.passive.description = champion.passive.description.replace(/\<[/a-zA-Z0-9*+-/=#@'"`]+\>/g, '');
+        }
     }
 
     useEffect(() => {
