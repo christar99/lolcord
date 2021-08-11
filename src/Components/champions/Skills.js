@@ -21,6 +21,10 @@ const ChampionImage = styled.div`
     z-index: 1;
 `;
 
+const ChampionVideo = styled.div`
+
+`;
+
 const SkillContainer = styled.div`
     width: 25%;
     height: 60%;
@@ -96,7 +100,7 @@ const Figure = styled.div`
 
 const Description = styled.p`
     font-size: 1rem;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 `;
 
 const Unprovided = styled.span`
@@ -110,8 +114,25 @@ const Skills = ({ champion, isSelected }) => {
     const [selectedSkill, setSelectedSkill] = useState("0");
     const [skillInfo, setSkillInfo] = useState(champion.passive);
 
-    const clickSkill = event => {
-        setSelectedSkill(event.target.id);
+    const clickSkill = event => setSelectedSkill(event.target.id);
+
+    // skill tooltip에 불필요한 태그 제거 & 필요한태그 바꾸기
+    if(selectedSkill !== 0) {
+        champion.spells.forEach(skill => {
+            //api에 있는 수치 => tooltip에 대입
+            const effectValue = skill.tooltip.match(/\{\{\se[0-9]\s\}\}/g);
+            let effectNumber = "";
+            if(effectValue !== null) {
+                effectValue.forEach((effect, index) => {
+                    effectNumber = effect.charAt(4);
+                    skill.tooltip = skill.tooltip.replace(effectValue[index], `${skill.effectBurn[effectNumber]}`);
+                });
+            }
+            // 불필요한 태그 제거, ?로 변경
+            if(skill.tooltip.includes("{")) skill.tooltip = skill.tooltip.replace(/\{\{\s[a-zA-Z0-9]+\s\}\}/g, '?').replace(/\{\{\s[a-zA-Z0-9]+\*[0-9]+\s\}\}/g, '?');
+            if(skill.tooltip.includes("null")) skill.tooltip = skill.tooltip.replace("null", '?');
+            skill.tooltip = skill.tooltip.replace(/\<\/?[a-zA-Z0-9]+\>/g, '');
+        })
     }
 
     useEffect(() => {
@@ -124,6 +145,9 @@ const Skills = ({ champion, isSelected }) => {
     return (
         <Container isSelected={isSelected}>
             <ChampionImage bgURL={`https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion.id}_0.jpg`}/>
+            <ChampionVideo
+                // hasChampionVideo={}
+            />
             <SkillContainer>
                 <SkillImageContainer>
                     {/* 패시브스킬 */}
@@ -171,7 +195,6 @@ const Skills = ({ champion, isSelected }) => {
                     {/* 패시브를 누르면 안보이게 */}
                     {selectedSkill !== "0" && 
                         <Leveltip>
-                            {console.log(skillInfo)}
 
                             {/* 일반스킬을 클릭했을때 */}
                             {skillInfo.cooldown && skillInfo.cooldown.length === 5 &&
@@ -214,12 +237,18 @@ const Skills = ({ champion, isSelected }) => {
 
                         </Leveltip>
                     }
-                    {/* <Description>{selectedSkill === "0" ? skillInfo.description : skillInfo.tooltip}</Description> */}
+                    <Description>
+                        {selectedSkill === "0" ? skillInfo.description 
+                        : (skillInfo.tooltip && skillInfo.tooltip.includes("<br />") ? skillInfo.tooltip.split("<br />").map(line => <span>{line}<br /></span>)
+                        : skillInfo.tooltip)}
+                    </Description>
 
+                    {selectedSkill !== "0" && 
                     <Unprovided>
                         [?]로 표시된 값은 라이엇API에서 제공하지 않는 데이터입니다.<br/>
-                        정확한 값은 LOL클라이언트에서 확인하실 수 있습니다.
-                    </Unprovided>
+                        정확한 값은 LOL클라이언트에서 확인하실 수 있습니다. <br />
+                        <br />
+                    </Unprovided>}
                 </SkillDetailContainer>
                 
             </SkillContainer>
