@@ -135,7 +135,7 @@ const Skills = ({ champion, isSelected }) => {
         })
 
         if(champion.passive.description.match(/\<[/a-zA-Z0-9]+\>/g) !== null) {
-            champion.passive.description = champion.passive.description.replace(/\<[/a-zA-Z0-9*+-/=#@'"`]+\>/g, '');
+            champion.passive.description = champion.passive.description.replace(/\<\/?[a-zA-Z0-9=#*+-/ ']+\>/g, '');
         }
     }
 
